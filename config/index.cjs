@@ -8,22 +8,22 @@
 const USER_CONFIG = {
 
   // 使用微信测试号：公众号APP_ID
-  APP_ID: '',
+  APP_ID: 'wx89bf7e0cfb06d12c',
 
   // 使用微信测试号：公众号APP_SECRET
-  APP_SECRET: '',
+  APP_SECRET: 'a23e79eec0b090edb7dfccac6ac68747',
 
-  PROVINCE: '广东',
-  CITY: '惠州',
+  PROVINCE: '陕西',
+  CITY: '榆林',
 
   USERS: [
     {
       // 想要发送的人的名字
       name: '宝贝',
       // 使用微信测试号：扫码关注你的微信测试号后生成的一段字符串，在测试号后台能看到
-      id: '',
+      id: 'o9mcU6ZMHuna40LK1UJnkXPjzvB4',
       // 使用微信测试号：你想对他发送的模板消息的模板ID
-      useTemplateId: '',
+      useTemplateId: 'uoPN2getSlzFwmhfq6yITq3zJJi55u_pSEtJulkp9bg',
       // 新历生日, 仅用作获取星座运势, 格式必须为MM-DD
       horoscopeDate: '12-27',
       festivals: [
@@ -42,9 +42,10 @@ const USER_CONFIG = {
       // 我们在一起已经有xxxx天了的配置
       customizedDateList: [
         // 在一起的日子
-        { keyword: 'love_day', date: '2022-09-08' },
+        { keyword: 'love_day', date: '2022-11-07' },
         // 结婚纪念日
-        { keyword: 'marry_day', date: '2022-09-09' },
+        { keyword: 'birthday1', date: '2000-02-25' },
+        { keyword: 'birthday2', date: '1998-10-20' },
       ],
     },
   ],
@@ -57,7 +58,7 @@ const USER_CONFIG = {
     {
       name: '自己',
       // 使用微信测试号：自己的微信id，扫码关注你的微信测试号后生成的一段字符串，在测试号后台能看到
-      id: '',
+      id: 'o9mcU6ZMHuna40LK1UJnkXPjzvB4',
     }
   ],
 
