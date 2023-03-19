@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { Lunar, Solar } from 'lunar-javascript'
 import cloneDeep from 'lodash/cloneDeep.js'
 import { selfDayjs } from './set-def-dayjs.js'
@@ -102,38 +103,48 @@ export const getConstellation = (date) => {
  * @param province {String}
  * @param city {String}
  */
-export const getWeatherCityInfo = (province, city) => {
-  let prov = null
-  if (province) {
-    const provName = province.replace(/[省市]$/, '')
-    prov = WEATHER_CITY.find((it) => it.city_name.indexOf(provName) !== -1)
-  }
-  if (!prov) {
-    console.log(`您当前填写的province: 【${province}】, 找不到该城市或省份，城市天气可能会因此不准确。请知悉 `)
-  }
+export const getWeatherCityInfo = async (province, city) => {
+  // let prov = null
+  // if (province) {
+  //   const provName = province.replace(/[省市]$/, '')
+  //   prov = WEATHER_CITY.find((it) => it.city_name.indexOf(provName) !== -1)
+  // }
+  // if (!prov) {
+  //   console.log(`您当前填写的province: 【${province}】, 找不到该城市或省份，城市天气可能会因此不准确。请知悉 `)
+  // }
 
-  // 如果找到父级地区，则在父级地区中找
-  if (city) {
-    const cName = city.replace(/[市区县]$/, '')
-    // 先后顺序县 => 区 => 市 => 无
-    for (const name of '县|区|市|'.split('|')) {
-      const c = WEATHER_CITY.find((it) => {
-        if (prov) {
-          return it.pid === prov.id && it.city_name === `${cName}${name}`
-        }
-        return it.city_name === `${cName}${name}`
-      })
-      if (c) {
-        return c
-      }
-    }
-  }
+  // // 如果找到父级地区，则在父级地区中找
+  // if (city) {
+  //   const cName = city.replace(/[市区县]$/, '')
+  //   // 先后顺序县 => 区 => 市 => 无
+  //   for (const name of '县|区|市|'.split('|')) {
+  //     const c = WEATHER_CITY.find((it) => {
+  //       if (prov) {
+  //         return it.pid === prov.id && it.city_name === `${cName}${name}`
+  //       }
+  //       return it.city_name === `${cName}${name}`
+  //     })
+  //     if (c) {
+  //       return c
+  //     }
+  //   }
+  // }
 
-  // city 找不到，那就返回prov的
-  if (prov && prov.city_code) {
-    return prov
-  }
+  // // city 找不到，那就返回prov的
+  // if (prov && prov.city_code) {
+  //   return prov
+  // }
+  const url = `https://geoapi.qweather.com/v2/city/lookup?location=zizhou&key=${config.PRIVATE_KEY}`
 
+  const res = await axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).catch((err) => err)
+  // console.log(res);
+  if (res.status === 200 && res.data) {
+    return res.data.location[0];
+  }
   return null
 }
 

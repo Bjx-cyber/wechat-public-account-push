@@ -13,13 +13,14 @@ const USER_CONFIG = {
   // 使用微信测试号：公众号APP_SECRET
   APP_SECRET: 'a23e79eec0b090edb7dfccac6ac68747',
 
-  PROVINCE: '陕西',
-  CITY: '榆林',
+  PRIVATE_KEY: '437dda46769e4c71afaff1ccb89a0c46',
+  PROVINCE: '北京',
+  CITY: '北京',
 
   USERS: [
     {
       // 想要发送的人的名字
-      name: '宝贝',
+      name: '元宝',
       // 使用微信测试号：扫码关注你的微信测试号后生成的一段字符串，在测试号后台能看到
       id: 'o9mcU6ZMHuna40LK1UJnkXPjzvB4',
       // 使用微信测试号：你想对他发送的模板消息的模板ID
@@ -29,23 +30,23 @@ const USER_CONFIG = {
       festivals: [
         // 注意：此条配置日期为阴历日期，因为`type`中 “生日” 之前有 * 符号
         {
-          type: '*生日', name: '小熊软糖', year: '1998', date: '10-20',
+          type: '生日', name: '元宝', year: '2001', date: '09-09',
         },
         // 注意：此条配置日期为阳历日期，因为`type`中 “生日” 之前没有 * 符号
         {
-          type: '生日', name: '小猪佩奇', year: '2000', date: '02-25',
+          type: '生日', name: '老赵头', year: '2000', date: '02-25',
         },
         {
-          type: '节日', name: '相识纪念日', year: '2020', date: '09-03',
+          type: '节日', name: '相识纪念日', year: '2023', date: '03-06',
         },
       ],
       // 我们在一起已经有xxxx天了的配置
       customizedDateList: [
         // 在一起的日子
-        { keyword: 'love_day', date: '2022-11-07' },
+        { keyword: 'love_day', date: '2023-03-06' },
         // 结婚纪念日
         { keyword: 'birthday1', date: '2000-02-25' },
-        { keyword: 'birthday2', date: '1998-10-20' },
+        { keyword: 'birthday2', date: '2001-09-09' },
       ],
     },
   ],

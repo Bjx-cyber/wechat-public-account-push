@@ -109,13 +109,13 @@ export const getWeather = async (province, city) => {
     console.log(`获取了相同的数据，读取缓存 >>> ${province}_${city}`)
     return RUN_TIME_STORAGE[`${province}_${city}`]
   }
-
-  const cityInfo = getWeatherCityInfo(province, city)
+  const cityInfo = await getWeatherCityInfo(province, city)
   if (!cityInfo) {
     console.error('配置文件中找不到相应的省份或城市')
     return {}
   }
-  const url = `http://t.weather.itboy.net/api/weather/city/${cityInfo.city_code}`
+  console.log(cityInfo);
+  const url = `https://api.qweather.com/v7/weather/3d?location=${cityInfo.id}&key=${config.PRIVATE_KEY}`
 
   const res = await axios.get(url, {
     headers: {
@@ -123,43 +123,33 @@ export const getWeather = async (province, city) => {
     },
   }).catch((err) => err)
 
-  if (res.status === 200 && res.data && res.data.status === 200) {
-    const commonInfo = res.data.data
-    const info = commonInfo && commonInfo.forecast && commonInfo.forecast[0]
-    if (!info) {
+  if (res.status === 200 && res.data.daily) {
+    const reportList = res.data.daily
+    const report = reportList[0]
+    if (!report) {
       console.error('天气情况: 找不到天气信息, 获取失败')
       return {}
     }
 
     const result = {
       // 湿度
-      shidu: commonInfo.shidu,
-      // PM2.5
-      pm25: commonInfo.pm25,
-      // PM1.0
-      pm10: commonInfo.pm10,
-      // 空气质量
-      quality: commonInfo.quality,
-      // 预防感冒提醒
-      ganmao: commonInfo.ganmao,
+      shidu: report.humidity,
       // 日出时间
-      sunrise: info.sunrise,
+      sunrise: report.sunrise,
       // 日落时间
-      sunset: info.sunset,
-      // 空气质量指数
-      aqi: info.aqi,
-      // 天气情况
-      weather: info.type,
+      sunset: report.sunset,
+      // 能见度
+      aqi: report.vis,
+      // 紫外线强度
+      ultraviolet: report.uvIndex,
       // 最高温度
-      maxTemperature: info.high.replace(/^高温\s*/, ''),
+      maxTemperature: report.tempMax,
       // 最低温度
-      minTemperature: info.low.replace(/^低温\s*/, ''),
-      // 风向
-      windDirection: info.fx,
-      // 风力等级
-      windScale: info.fl,
-      // 温馨提示
-      notice: info.notice,
+      minTemperature: report.tempMin,
+      // 白天风向
+      windDirection: report.windDirDay,
+      // 白天风力等级
+      windScale: report.windScaleDay,
     }
 
     RUN_TIME_STORAGE[`${province}_${city}`] = cloneDeep(result)
@@ -723,6 +713,7 @@ export const getAggregatedData = async () => {
       value: weatherInfo[item] || '获取失败',
       color: getColor(),
     }))
+    console.log(weatherMessage)
 
     // 统计日列表计算日期差
     const dateDiffParams = getDateDiffList(user.customizedDateList).map((item) => ({
@@ -851,7 +842,7 @@ export const model2Data = (templateId, wxTemplateData, urlencode = false, turnTo
   if (turnToOA) {
     targetValue = targetValue.replace(/%5Cn+/g, '%0A%0A')
   }
-
+  console.log(targetValue)
   return {
     title: model.title,
     desc: targetValue,
