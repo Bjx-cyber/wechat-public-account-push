@@ -134,7 +134,7 @@ export const getWeatherCityInfo = async (province, city) => {
   // if (prov && prov.city_code) {
   //   return prov
   // }
-  const url = `https://geoapi.qweather.com/v2/city/lookup?location=zizhou&key=${config.PRIVATE_KEY}`
+  const url = `https://geoapi.qweather.com/v2/city/lookup?location=beijing&key=${config.PRIVATE_KEY}`
 
   const res = await axios.get(url, {
     headers: {
